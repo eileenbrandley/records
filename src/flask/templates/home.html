@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="hero-image">
+    <div class="hero-text">
+        <h1>Welcome to the herc life</h1>
+        <p>#Let'sGo</p>
+    </div>
+</div>
+
+<div class="container pt-5" data-category="fonts">
+    <div>
+        <h1>Born in SW19.
+            <small>Raised on the common</small>
+        </h1>
+
+        <p class="lead">
+            We like to run. We love to race. We also like numbers.
+        </p>
+        <p>
+            I thought I would spend some time writing some queries to expose some of the fine
+            performances, and a few little fun comparisons that have borne out of Tuesdays' hard training sessions and
+            Sundays' pack runs. Big thank you to Guy Gibbons, Ross Matheson and others for photos. If you spot any
+            errors please let me know.
+        </p>
+    </div>
+
+    <div class="container">
+        {% for query in queries %}
+        <div class="card flex-row">
+            <div class="card-header-image">
+                <img style="object-fit: cover;" src="{{ url_for('static', filename='images/' + query.image + '.png') }}" width="240" height="200">
+            </div>
+            <div class="card-block px-2">
+                <a href="/view/{{ query.id }}" class="query-link">
+                    <h1 class="card-title">{{query.title}}</h1>
+                </a>
+                <p class="card-text">{% if query.description is not none %} {{query.description}} {% endif %}</p>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+    </div>
+
+</div>
+
+
+{% endblock %}

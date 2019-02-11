@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="bg-primary pt-5 pb-5">
+
+    <h1 class="text-center">{{title}}</h1>
+
+    <div class="container">
+        <form action="" method="post">
+            {% for key, value in form_params.items() %}
+
+
+            {% if key == 'gender' %}
+            <h5 class="text-uppercase">Gender</h5>
+            <span>
+                <input type="radio" name="gender" id="gender-all" value="All" class="border collapse" {% if query_params.gender is iterable %} checked="checked" {% endif %}>
+                <label class="p-3" for="gender-all">All</label>
+            </span>
+            <span>
+                <input type="radio" name="gender" id="gender-F" value="F" class="border collapse" {% if query_params.gender == 1 %} checked="checked" {% endif %}>
+                <label class="p-3" for="gender-F">F</label>
+            </span>
+            <span>
+                <input type="radio" name="gender" id="gender-M" value="M" class="border collapse" {% if query_params.gender == 0 %} checked="checked" {% endif %}>
+                <label class="p-3" for="gender-M">M</label>
+            </span>
+
+            {% else %}
+
+            <h5 class="text-uppercase">{{key}}</h5>
+            <select name="option">
+                {% for name, i in value.items() %}
+                <option value={{i}} {% if query_params.option == i|string %} selected {% endif %}>{{name}}</option>
+                {% endfor %}
+            </select>
+
+
+            {% endif %}
+            {% endfor %}
+            <input type="submit" value="submit">
+        </form>
+
+
+        <div id="table_div"></div>
+    </div>
+
+</div>
+
+
+    <script type='text/javascript'>
+
+        google.charts.load('current', {'packages': ['table']});
+        google.charts.setOnLoadCallback(drawTable);
+
+        function drawTable() {
+
+            var data_passed = {{data | safe}}
+            ;
+            var table_data = google.visualization.arrayToDataTable(data_passed);
+
+            var options = {
+                showRowNumber: true,
+                width: '100%',
+                height: '60%',
+                alternatingRowStyle: true,
+                pageSize: 10,
+                cssClassNames: {
+                    headerRow: 'bg-oddrow',
+                    tableRow: 'bg-row',
+                    oddTableRow: 'bg-oddrow',
+                }
+            };
+
+
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+            table.draw(table_data, options);
+
+        }
+
+    </script>
+
+
+{% endblock %}
